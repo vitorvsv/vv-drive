@@ -1,18 +1,18 @@
 import { logger } from "../src/logger.js"
 import FileHelper from "./fileHelper.js";
 import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, parse } from "url";
+import UploadHandler from "./uploadHandler.js";
+import { pipeline } from "stream/promises";
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const defaultDownloadsFolder = resolve(__dirname, "../", "downloads")
 
 export default class Routes {
-
-    io;
-
     constructor(downloadsFolder = defaultDownloadsFolder) {
         this.downloadsFolder = downloadsFolder;
         this.fileHelper = FileHelper;
+        this.io = {};
     }
 
     setIoInstance(io) {
@@ -29,14 +29,36 @@ export default class Routes {
     }
 
     async post(req, res) {
-        logger.info("post")
-        res.end();
+        const { headers } = req;
+
+        const { query: { socketId } } = parse(req.url, true);
+        const uploadHandler = new UploadHandler({
+            socketId,
+            io: this.io,
+            downloadsFolder: this.downloadsFolder
+        });
+
+        const onFinish = (res) => () => {
+            res.writeHead(200)
+            const data = JSON.stringify({ result: "Files uploaded with success!" });
+            res.end(data);
+        }
+
+        const busboyInstance = uploadHandler.registerEvents(
+            headers,
+            onFinish(res)
+        )
+
+        await pipeline(
+            req,
+            busboyInstance
+        )
+        
+        logger.info("Request finished with success!")
     }
 
     async get(req, res) {
         const files = await this.fileHelper.getFileStatuses(this.downloadsFolder)
-
-        console.log(files)
 
         res.writeHead(200)
         res.end(JSON.stringify(files));
