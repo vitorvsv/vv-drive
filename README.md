@@ -7,10 +7,10 @@
 
 - Web API
     - [X] It should list downloaded files
-    - [] It must stream files and save them in disk
-    - [] It should notify about progress of storing files to disk
-    - [] It must allow uploading of files in image, video or audio format
-    - [] It must reach 100% code coverage in tests
+    - [X] It must stream files and save them in disk
+    - [X] It should notify about progress of storing files to disk
+    - [X] It must allow uploading of files in image, video or audio format
+    - [X] It must reach 100% code coverage in tests
 
 - Web App
     - [] Should list downloaded files
