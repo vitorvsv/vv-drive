@@ -23,7 +23,7 @@ const server = https.createServer(
 
 const io = new Server(server, {
     cors: {
-        origin: process.env.NODE_ENV === "production" ? "" : `https://localhost:${PORT}`,
+        origin: '*',
         credentials: false
     }
 });
@@ -31,7 +31,7 @@ const io = new Server(server, {
 routes.setIoInstance(io);
 
 io.on("connection", (socket) => {
-    logger.info(`Anyone is connecting is this server by socket, ${socket.id}`);
+    logger.info(`Someone is connected is this server by socket, ${socket.id}`);
 });
 
 const startServer = () => {
@@ -39,4 +39,4 @@ const startServer = () => {
     logger.info(`Server started at ${address} using port ${port}`)
 }
 
-server.listen(PORT, startServer)
+server.listen(PORT, startServer);
