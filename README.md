@@ -13,11 +13,11 @@
     - [X] It must reach 100% code coverage in tests
 
 - Web App
-    - [] Should list downloaded files
-    - [] Should allow uploading of files of any size
-    - [] Must have upload function via button
-    - [] Should display upload progress
-    - [] Must have drag and drop upload function
+    - [X] Should list downloaded files
+    - [X] Should allow uploading of files of any size
+    - [X] Must have upload function via button
+    - [X] Should display upload progress
+    - [X] Must have drag and drop upload function
 
 
 ## Layout Credits <3

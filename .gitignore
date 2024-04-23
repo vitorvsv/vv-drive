@@ -118,3 +118,4 @@ dist
 .pnp.*
 ./vv-drive-webapp/node_modules
 ./vv-drive-api/node_modules
+./vv-drive-api/downloads/*
